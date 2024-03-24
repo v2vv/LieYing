@@ -8,16 +8,32 @@ export default function MapContainer() {
   const jsAPIkey = localStorage.getItem("jsAPIkey");
 
   const [trickDatas, setTrickDatas] = useState(null);
-  // const TrickTemp = Trick();
+  const TrickTemp = {};
+  var path = [];
   console.log("hello");
   // setTrickDatas(TrickTemp);
 
   useEffect(() => {
     function TrickSucess(data) {
       setTrickDatas(data);
-      console.log(data);
+      const TrickPointsTemp = data.data.tracks[0].points;
+      Object.keys(TrickPointsTemp).map((item) => {
+        TrickTemp[item] = TrickPointsTemp[item].location;
+      });
+
+      // Object.keys(TrickTemp).map((item) => {
+      //   console.log(TrickTemp[item]);
+      //   // path[item] = new AMap.LngLat(TrickTemp[item]);
+      // });
+
+      console.log(TrickTemp);
+
+      // TrickTemp = .;
+      // console.log(data.data.tracks[0].points);
     }
+
     Trick(TrickSucess);
+
     AMapLoader.load({
       key: jsAPIkey, // 申请好的Web端开发者Key，首次调用 load 时必填
       version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
@@ -31,6 +47,24 @@ export default function MapContainer() {
       },
     })
       .then((AMap) => {
+        Object.keys(TrickTemp).map((item) => {
+          var parts = TrickTemp[item].split(",");
+          path[item] = new AMap.LngLat(
+            parseFloat(parts[0]),
+            parseFloat(parts[1])
+          );
+        });
+
+        // console.log(path);
+
+        //创建 Polyline 实例
+        var polyline = new AMap.Polyline({
+          path: path,
+          strokeWeight: 2, //线条宽度
+          strokeColor: "red", //线条颜色
+          lineJoin: "round", //折线拐点连接处样式
+        });
+
         const marker = new AMap.Marker({
           position: new AMap.LngLat(115.864949, 27.704341),
           title: "北京",
@@ -44,6 +78,7 @@ export default function MapContainer() {
           center: [115.864949, 27.704341], //初始化地图中心点位置
         });
         map.add(marker);
+        map.add(polyline);
       })
       .catch((e) => {
         console.log(e);
