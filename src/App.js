@@ -6,14 +6,15 @@ import MapContainer from "./Compment/MapContainer.js";
 function App() {
   return (
     <div className="App">
-      <MapContainer></MapContainer>
+      <MapContainer />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
         <div>
-          <InputDialog></InputDialog>
+          <InputDialog dataName="jsAPIkey"></InputDialog>
+          <InputDialog dataName="webkey"></InputDialog>
         </div>
 
         <a

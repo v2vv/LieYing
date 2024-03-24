@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 
-function InputDialog() {
+function InputDialog({ dataName }) {
   const [inputValue, setInputValue] = useState("");
 
   const handleSave = () => {
-    localStorage.setItem("jsAPIkey", inputValue);
+    localStorage.setItem(dataName, inputValue);
     setInputValue("");
   };
 
   return (
     <div>
-      <label>Enter data:</label>
+      <label>Enter {dataName} :</label>
       <input
         type="text"
         value={inputValue}
