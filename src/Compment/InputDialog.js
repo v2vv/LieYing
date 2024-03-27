@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 function InputDialog({ dataName }) {
   const [inputValue, setInputValue] = useState("");
@@ -11,12 +13,18 @@ function InputDialog({ dataName }) {
   return (
     <div>
       <label>Enter {dataName} :</label>
-      <input
+      <TextField
+        id="standard-basic"
+        label="Standard"
+        variant="standard"
         type="text"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
       />
-      <button onClick={handleSave}>Save</button>
+
+      <Button variant="outlined" onClick={handleSave}>
+        Save
+      </Button>
     </div>
   );
 }

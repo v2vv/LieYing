@@ -90,18 +90,25 @@ export default function MapContainer() {
               // e.setText(`${FormartTime(TrickPointsTime[item])}`);
 
               // console.log(e);
-              e.target.setText({
-                content: `${FormartTime(TrickPointsTime[item])}`, //要展示的文字内容
-                direction: "right", //文字方向，有 icon 时为围绕文字的方向，没有 icon 时，则为相对 position 的位置
-                offset: [-20, -5], //在 direction 基础上的偏移量
-                //文字样式
-                style: {
-                  fontSize: 12, //字体大小
-                  fillColor: "#22886f", //字体颜色
-                  strokeColor: "#fff", //描边颜色
-                  strokeWidth: 2, //描边宽度
-                },
+
+              //信息窗体的内容
+              var content = [
+                `${FormartTime(TrickPointsTime[item])}`,
+                "电话 : 010-84107000   邮编 : 100102",
+                "地址 : 北京市望京阜通东大街方恒国际中心A座16层</div>",
+              ];
+
+              //创建 infoWindow 实例
+              var infoWindow = new AMap.InfoWindow({
+                content: content.join("<br>"), //传入字符串拼接的 DOM 元素
+                anchor: "top-left",
               });
+
+              //打开信息窗体
+              infoWindow.open(map, [
+                parseFloat(parts[0]),
+                parseFloat(parts[1]),
+              ]); //map 为当前地图的实例，map.getCenter() 用于获取地图中心点坐标。
             });
           });
 
@@ -128,7 +135,7 @@ export default function MapContainer() {
             zooms: [2, 22],
             center: [115.864949, 27.704341], //初始化地图中心点位置
           });
-          // map.add(marker);
+          map.add(marker);
           map.add(polyline);
           map.add(labelsLayer);
           // map.add(labelMarker);

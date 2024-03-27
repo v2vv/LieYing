@@ -2,20 +2,27 @@ import logo from "./logo.svg";
 import "./App.css";
 import InputDialog from "./Compment/InputDialog.js";
 import MapContainer from "./Compment/MapContainer.js";
+import DateTimePicker from "./Compment/CommonlyUsedComponents.js";
 
 function App() {
+  function DateTimeChangeHander(text) {
+    console.log(text);
+  }
+
   return (
     <div className="App">
       <MapContainer />
-      <header className="App-header">
+      <div>
+        <InputDialog dataName="jsAPIkey"></InputDialog>
+        <InputDialog dataName="webkey"></InputDialog>
+        <DateTimePicker DateTimeChange={DateTimeChangeHander}></DateTimePicker>
+        <DateTimePicker></DateTimePicker>
+      </div>
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <div>
-          <InputDialog dataName="jsAPIkey"></InputDialog>
-          <InputDialog dataName="webkey"></InputDialog>
-        </div>
 
         <a
           className="App-link"
@@ -25,7 +32,7 @@ function App() {
         >
           Learn React
         </a>
-      </header>
+      </header> */}
     </div>
   );
 }
