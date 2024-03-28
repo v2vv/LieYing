@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 
 function InputDialog({ dataName }) {
   const [inputValue, setInputValue] = useState("");
@@ -14,10 +16,9 @@ function InputDialog({ dataName }) {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-around",
-    width: "400px",
   };
 
-  return (
+  const Textfile = ({ dataName }) => (
     <div style={styles}>
       <label>Enter {dataName} :</label>
       <TextField
@@ -25,6 +26,7 @@ function InputDialog({ dataName }) {
         label="Standard"
         variant="standard"
         type="text"
+        sx={{ m: 1, width: "25ch" }}
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
       />
@@ -33,6 +35,24 @@ function InputDialog({ dataName }) {
         Save
       </Button>
     </div>
+  );
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid
+        container
+        direction="column"
+        rowSpacing={2}
+        justifyContent="space-between"
+        alignItems="stretch"
+      >
+        <Grid item>
+          <Textfile dataName="jsAPIkey"></Textfile>
+        </Grid>
+        <Grid item>
+          <Textfile dataName="webkey"></Textfile>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 
