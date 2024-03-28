@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 // import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import InputDialog from "./InputDialog.js";
-import DateTimePicker from "./CommonlyUsedComponents.js";
+import DatePicker from "./DatePick.js";
 
 // const Item = styled(Paper)(({ theme }) => ({
 //   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -15,9 +15,6 @@ import DateTimePicker from "./CommonlyUsedComponents.js";
 // }));
 
 export default function BasicGrid() {
-  function DateTimeChangeHander(text) {
-    console.log(text);
-  }
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={4}>
@@ -38,10 +35,7 @@ export default function BasicGrid() {
           </Grid>
         </Grid>
         <Grid item xs={4}>
-          <DateTimePicker
-            DateTimeChange={DateTimeChangeHander}
-          ></DateTimePicker>
-          <DateTimePicker></DateTimePicker>
+          <DatePicker />
         </Grid>
       </Grid>
     </Box>

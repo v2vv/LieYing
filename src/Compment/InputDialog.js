@@ -29,7 +29,7 @@ function InputDialog({ dataName }) {
         onChange={(e) => setInputValue(e.target.value)}
       />
 
-      <Button size="small" variant="outlined" onClick={handleSave}>
+      <Button variant="outlined" onClick={handleSave}>
         Save
       </Button>
     </div>
