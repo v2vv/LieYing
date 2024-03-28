@@ -28,13 +28,13 @@ export default function DatePicker() {
           >
             <Grid item>
               <DateTimePicker
-                label="Basic date time picker"
+                label="StartTime"
                 onAccept={StartTimeChangeHander}
               ></DateTimePicker>
             </Grid>
             <Grid item>
               <DateTimePicker
-                label="Basic date time picker"
+                label="EndTime"
                 onAccept={EndTimeChangeHander}
               ></DateTimePicker>
             </Grid>
