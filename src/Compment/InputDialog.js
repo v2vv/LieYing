@@ -10,8 +10,15 @@ function InputDialog({ dataName }) {
     setInputValue("");
   };
 
+  const styles = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-around",
+    width: "400px",
+  };
+
   return (
-    <div>
+    <div style={styles}>
       <label>Enter {dataName} :</label>
       <TextField
         id="standard-basic"
@@ -22,7 +29,7 @@ function InputDialog({ dataName }) {
         onChange={(e) => setInputValue(e.target.value)}
       />
 
-      <Button variant="outlined" onClick={handleSave}>
+      <Button size="small" variant="outlined" onClick={handleSave}>
         Save
       </Button>
     </div>
