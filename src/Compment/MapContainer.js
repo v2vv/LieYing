@@ -11,9 +11,6 @@ export default function MapContainer() {
     const jsAPIkey = localStorage.getItem("jsAPIkey");
     let map = null;
     const TrickPoint = {};
-    const TrickPointsTime = {};
-    const TrickPointsSpeeds = {};
-    const TrickPointsDirection = {};
     var path = [];
     var labelMarkerGroup = [];
     //设置一个图标对象
@@ -46,9 +43,7 @@ export default function MapContainer() {
     function TrickSucess(data) {
       const TrickPoints = data.data.tracks[0].points;
       console.log(data.data);
-
       console.log(TrickPoint);
-      console.log(TrickPointsTime);
 
       AMapLoader.load({
         key: jsAPIkey, // 申请好的Web端开发者Key，首次调用 load 时必填
