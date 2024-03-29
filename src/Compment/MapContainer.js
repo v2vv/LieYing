@@ -36,6 +36,7 @@ export default function MapContainer() {
       let day = date.getDate();
       let hours = date.getHours();
       let minutes = date.getMinutes();
+      if (minutes < 10) minutes = `0${minutes}`;
       let seconds = date.getSeconds();
 
       // 格式化时间为字符串
@@ -50,6 +51,7 @@ export default function MapContainer() {
         TrickPointsTime[item] = TrickPointsTemp[item].locatetime;
         TrickPointsSpeeds[item] = TrickPointsTemp[item].speed;
         TrickPointsDirection[item] = TrickPointsTemp[item].direction;
+        return 0;
       });
 
       console.log(TrickPoint);
@@ -75,7 +77,6 @@ export default function MapContainer() {
             allowCollision: true, //不同标注层之间是否避让
           });
 
-          // eslint-disable-next-line array-callback-return
           Object.keys(TrickPoint).map((item) => {
             var parts = TrickPoint[item].split(",");
             path[item] = new AMap.LngLat(
@@ -96,9 +97,9 @@ export default function MapContainer() {
 
               //信息窗体的内容
               var content = [
-                `${FormartTime(TrickPointsTime[item])}`,
-                "电话 : 010-84107000   邮编 : 100102",
-                "地址 : 北京市望京阜通东大街方恒国际中心A座16层</div>",
+                `时间: ${FormartTime(TrickPointsTime[item])}`,
+                `速度:${TrickPointsSpeeds[item]} km/h`,
+                `方向: ${TrickPointsDirection[item]}° ( 0° 为正北方向 )`,
               ];
 
               //创建 infoWindow 实例
@@ -113,6 +114,8 @@ export default function MapContainer() {
                 parseFloat(parts[1]),
               ]); //map 为当前地图的实例，map.getCenter() 用于获取地图中心点坐标。
             });
+
+            return 0;
           });
 
           labelsLayer.add(labelMarkerGroup);

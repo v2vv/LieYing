@@ -1,7 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import InputField from "./InputField.js";
+import InputField from "./KeyInputField.js";
 import DatePicker from "./DatePick.js";
 
 export default function LieYingCtrlUI() {
