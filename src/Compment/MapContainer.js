@@ -44,15 +44,8 @@ export default function MapContainer() {
     }
 
     function TrickSucess(data) {
-      const TrickPointsTemp = data.data.tracks[0].points;
+      const TrickPoints = data.data.tracks[0].points;
       console.log(data.data);
-      Object.keys(TrickPointsTemp).map((item) => {
-        TrickPoint[item] = TrickPointsTemp[item].location;
-        TrickPointsTime[item] = TrickPointsTemp[item].locatetime;
-        TrickPointsSpeeds[item] = TrickPointsTemp[item].speed;
-        TrickPointsDirection[item] = TrickPointsTemp[item].direction;
-        return 0;
-      });
 
       console.log(TrickPoint);
       console.log(TrickPointsTime);
@@ -77,8 +70,8 @@ export default function MapContainer() {
             allowCollision: true, //不同标注层之间是否避让
           });
 
-          Object.keys(TrickPoint).map((item) => {
-            var parts = TrickPoint[item].split(",");
+          Object.keys(TrickPoints).map((item) => {
+            var parts = TrickPoints[item].location.split(",");
             path[item] = new AMap.LngLat(
               parseFloat(parts[0]),
               parseFloat(parts[1])
@@ -97,9 +90,9 @@ export default function MapContainer() {
 
               //信息窗体的内容
               var content = [
-                `时间: ${FormartTime(TrickPointsTime[item])}`,
-                `速度:${TrickPointsSpeeds[item]} km/h`,
-                `方向: ${TrickPointsDirection[item]}° ( 0° 为正北方向 )`,
+                `时间: ${FormartTime(TrickPoints[item].locatetime)}`,
+                `速度:${TrickPoints[item].speed} km/h`,
+                `方向: ${TrickPoints[item].direction}° ( 0° 为正北方向 )`,
               ];
 
               //创建 infoWindow 实例
