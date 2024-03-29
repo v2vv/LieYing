@@ -7,11 +7,11 @@ import DatePicker from "./DatePick.js";
 export default function LieYingCtrlUI() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Grid container direction="column" spacing={2}>
-        <Grid item xs={8}>
-          <InputField></InputField>
+      <Grid container direction="row" spacing={2}>
+        <Grid item>
+          <InputField />
         </Grid>
-        <Grid item xs={8}>
+        <Grid item>
           <DatePicker />
         </Grid>
       </Grid>

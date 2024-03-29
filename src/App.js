@@ -1,25 +1,20 @@
 import "./App.css";
 import MapContainer from "./Compment/MapContainer.js";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import LieYingCtrlUI from "./Compment/LieYingCtrl";
 
 function App() {
   return (
     <div className="App">
-      <MapContainer />
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
+      <Grid container direction="column" spacing={2}>
+        <Grid item>
+          <MapContainer />
+        </Grid>
+        <Grid item>
+          <LieYingCtrlUI />
+        </Grid>
+      </Grid>
     </div>
   );
 }

@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import styles from "./MapContainer.css";
 import AMapLoader from "@amap/amap-jsapi-loader";
 import Trick from "./Trick";
-import LieYingCtrlUI from "./LieYingCtrl";
 
 export default function MapContainer() {
   useEffect(() => {
@@ -157,13 +156,10 @@ export default function MapContainer() {
   }, []);
 
   return (
-    <div>
-      <div
-        id="container"
-        className={styles.container}
-        style={{ height: "800px" }}
-      ></div>
-      <LieYingCtrlUI></LieYingCtrlUI>
-    </div>
+    <div
+      id="container"
+      className={styles.container}
+      style={{ height: "400px" }}
+    ></div>
   );
 }

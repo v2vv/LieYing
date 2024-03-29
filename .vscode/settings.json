@@ -5,5 +5,5 @@
         "plaintext"
     ],
     "compile-hero.disable-compile-files-on-did-save-code": true,
-    "editor.wordSeparators": "`~!@#$%^&*()=+[{]}\\|;:'\",.<>/?"
+    "editor.wordSeparators": "`~!@#$%^&*()=+[{]}\\|;:'\",.<>/?",
 }
