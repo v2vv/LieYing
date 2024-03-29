@@ -1,18 +1,27 @@
 import * as React from "react";
+import { useContext } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import Button from "@mui/material/Button";
+import { TimeZoneContext } from "./Context";
 
 export default function DatePicker() {
+  const { setTimeZone } = useContext(TimeZoneContext);
+  var Startime = null;
+  var EndTime = null;
+
   function StartTimeChangeHander(text) {
-    console.log(text);
+    Startime = text.unix() * 1000;
+    console.log(`Startime ${text.toString()}`);
   }
   function EndTimeChangeHander(text) {
-    console.log(text);
+    EndTime = text.unix() * 1000;
+    console.log(`EndTime ${text.toString()}`);
   }
   function requestData() {
-    console.log("text");
+    setTimeZone({ Startime, EndTime });
+    console.log({ Startime, EndTime });
   }
 
   return (

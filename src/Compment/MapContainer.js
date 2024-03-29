@@ -2,8 +2,11 @@ import React, { useEffect } from "react";
 import styles from "./MapContainer.css";
 import AMapLoader from "@amap/amap-jsapi-loader";
 import Trick from "./Trick";
+import { useContext } from "react";
+import { TimeZoneContext } from "./Context";
 
 export default function MapContainer() {
+  const { TimeZone } = useContext(TimeZoneContext);
   useEffect(() => {
     const jsAPIkey = localStorage.getItem("jsAPIkey");
     let map = null;
@@ -152,8 +155,8 @@ export default function MapContainer() {
       // console.log(data.data.tracks[0].points);
     }
 
-    Trick(TrickSucess);
-  }, []);
+    Trick({ TrickSucess, TimeZone });
+  }, [TimeZone]);
 
   return (
     <div

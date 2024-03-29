@@ -1,19 +1,18 @@
 import axios from "axios";
 
-export default function Trick(TrickSucess) {
+export default function Trick({ TrickSucess, TimeZone }) {
   const webkey = localStorage.getItem("webkey");
 
-  var now = new Date();
-  console.log(now.getTime());
+  console.log(`start time :${TimeZone.Startime} end time: ${TimeZone.EndTime}`);
 
   // 定义GET请求的参数
   const params = {
     key: webkey,
     sid: "1023621",
     tid: "865589838",
-    // starttime: `${now.getTime() - 86400000}`,
-    // endtime: `${now.getTime()}`,
-    trid: 260,
+    starttime: TimeZone.Startime,
+    endtime: TimeZone.EndTime,
+    // trid: 260,
   };
 
   // 使用Axios发送GET请求
