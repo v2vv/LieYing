@@ -4,6 +4,7 @@ import AMapLoader from "@amap/amap-jsapi-loader";
 import Trick from "./Trick";
 import { useContext } from "react";
 import { TimeZoneContext } from "./Context";
+import dayjs from "dayjs";
 
 export default function MapContainer() {
   const { TimeZone } = useContext(TimeZoneContext);
@@ -23,47 +24,38 @@ export default function MapContainer() {
     };
     console.log("hello");
 
-    function FormartTime(unixTime) {
-      // 创建一个新的 Date 对象，传入 Unix 时间戳乘以 1000，以毫秒为单位
-      let date = new Date(unixTime);
+    AMapLoader.load({
+      key: jsAPIkey, // 申请好的Web端开发者Key，首次调用 load 时必填
+      version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
+      plugins: ["AMap.ToolBar", "AMap.Driving"], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
+      AMapUI: {
+        version: "1.1",
+        plugins: [],
+      },
+      Loca: {
+        version: "2.0.0",
+      },
+    })
+      .then((AMap) => {
+        map = new AMap.Map("container", {
+          // 设置地图容器id
+          viewMode: "3D", // 是否为3D地图模式
+          zoom: 15,
+          zooms: [2, 22],
+          center: [115.864949, 27.704341], //初始化地图中心点位置
+        });
 
-      // 使用 Date 对象的方法获取标准时间的各个部分
-      let year = date.getFullYear();
-      let month = date.getMonth() + 1; // 月份从 0 开始，所以需要加 1
-      let day = date.getDate();
-      let hours = date.getHours();
-      let minutes = date.getMinutes();
-      if (minutes < 10) minutes = `0${minutes}`;
-      let seconds = date.getSeconds();
-
-      // 格式化时间为字符串
-      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-    }
-
-    function TrickSucess(data) {
-      const TrickPoints = data.data.tracks[0].points;
-      console.log(data.data);
-      console.log(TrickPoint);
-
-      AMapLoader.load({
-        key: jsAPIkey, // 申请好的Web端开发者Key，首次调用 load 时必填
-        version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-        plugins: ["AMap.ToolBar", "AMap.Driving"], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
-        AMapUI: {
-          version: "1.1",
-          plugins: [],
-        },
-        Loca: {
-          version: "2.0.0",
-        },
-      })
-        .then((AMap) => {
+        function TrickSucess(data) {
           const labelsLayer = new AMap.LabelsLayer({
             zooms: [0, 20],
             zIndex: 1000,
             collision: false, //该层内标注是否避让
             allowCollision: true, //不同标注层之间是否避让
           });
+
+          const TrickPoints = data.data?.tracks[0].points;
+          console.log(data.data);
+          console.log(TrickPoint);
 
           Object.keys(TrickPoints).map((item) => {
             var parts = TrickPoints[item].location.split(",");
@@ -78,16 +70,25 @@ export default function MapContainer() {
               zIndex: 16,
               rank: 1, //避让优先级
               icon: icon, //标注图标，将 icon 对象传给 icon 属性
-            }).on("click", (e) => {
+            }).on("click", () => {
               // e.setText(`${FormartTime(TrickPointsTime[item])}`);
 
               // console.log(e);
 
               //信息窗体的内容
               var content = [
-                `时间: ${FormartTime(TrickPoints[item].locatetime)}`,
+                `时间: ${dayjs(TrickPoints[item].locatetime).format(
+                  "HH:mm:ss MM/DD/YY"
+                )}`,
                 `速度:${TrickPoints[item].speed} km/h`,
                 `方向: ${TrickPoints[item].direction}° ( 0° 为正北方向 )`,
+                `手机运行状态: ${
+                  TrickPoints[item].props?.LockStatus === undefined
+                    ? "未知"
+                    : TrickPoints[item].props?.LockStatus == "Lock"
+                    ? "解锁"
+                    : "锁定"
+                }`,
               ];
 
               //创建 infoWindow 实例
@@ -103,50 +104,48 @@ export default function MapContainer() {
               ]); //map 为当前地图的实例，map.getCenter() 用于获取地图中心点坐标。
             });
 
+            //创建 Polyline 实例
+            var polyline = new AMap.Polyline({
+              path: path,
+              strokeWeight: 2, //线条宽度
+              strokeColor: "red", //线条颜色
+              lineJoin: "round", //折线拐点连接处样式
+            });
+
+            map.add(polyline);
+            labelsLayer.add(labelMarkerGroup);
+            console.log(labelMarkerGroup);
+            map.add(labelsLayer);
             return 0;
           });
+        }
+        console.log(TimeZone);
+        Trick({ TrickSucess, TimeZone });
 
-          labelsLayer.add(labelMarkerGroup);
-          console.log(labelMarkerGroup);
-
-          //创建 Polyline 实例
-          var polyline = new AMap.Polyline({
-            path: path,
-            strokeWeight: 2, //线条宽度
-            strokeColor: "red", //线条颜色
-            lineJoin: "round", //折线拐点连接处样式
-          });
-
-          const marker = new AMap.Marker({
-            position: new AMap.LngLat(115.864949, 27.704341),
-            title: "北京",
-          });
-
-          map = new AMap.Map("container", {
-            // 设置地图容器id
-            viewMode: "3D", // 是否为3D地图模式
-            zoom: 15,
-            zooms: [2, 22],
-            center: [115.864949, 27.704341], //初始化地图中心点位置
-          });
-          map.add(marker);
-          map.add(polyline);
-          map.add(labelsLayer);
-          // map.add(labelMarker);
-        })
-        .catch((e) => {
-          console.log(e);
+        const marker = new AMap.Marker({
+          position: new AMap.LngLat(115.864949, 27.704341),
+          title: "大同村",
         });
+        map.add(marker);
 
-      return () => {
-        map?.destroy();
-      };
+        // Trick(TrickSucess,TimeZone)
 
-      // TrickTemp = .;
-      // console.log(data.data.tracks[0].points);
-    }
+        // requsttemp.current.
 
-    Trick({ TrickSucess, TimeZone });
+        // <Trick TrickSucess={TrickSucess} />;
+
+        // map.add(labelMarker);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+    return () => {
+      map?.destroy();
+    };
+
+    // TrickTemp = .;
+    // console.log(data.data.tracks[0].points);
   }, [TimeZone]);
 
   return (

@@ -1,10 +1,10 @@
 import axios from "axios";
 
 export default function Trick({ TrickSucess, TimeZone }) {
+  console.log("TimeZone");
+  console.log(TimeZone);
   const webkey = localStorage.getItem("webkey");
-
   console.log(`start time :${TimeZone.Startime} end time: ${TimeZone.EndTime}`);
-
   // 定义GET请求的参数
   const params = {
     key: webkey,
@@ -15,7 +15,6 @@ export default function Trick({ TrickSucess, TimeZone }) {
     // trid: 260,
   };
 
-  // 使用Axios发送GET请求
   axios
     .get("https://tsapi.amap.com/v1/track/terminal/trsearch", { params })
     .then((response) => {
@@ -29,4 +28,7 @@ export default function Trick({ TrickSucess, TimeZone }) {
     .catch((error) => {
       console.error("Error fetching data:", error);
     });
+
+  // 使用Axios发送GET请求
+  return;
 }

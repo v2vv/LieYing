@@ -1,27 +1,35 @@
 import * as React from "react";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import Button from "@mui/material/Button";
 import { TimeZoneContext } from "./Context";
+import dayjs from "dayjs";
 
 export default function DatePicker() {
-  const { setTimeZone } = useContext(TimeZoneContext);
-  var Startime = null;
-  var EndTime = null;
+  const { TimeZone, setTimeZone } = useContext(TimeZoneContext);
+  const starTime = useRef(null);
+  const endTime = useRef(null);
+  // var Startime = null;
+  // var EndTime = null;
 
-  function StartTimeChangeHander(text) {
-    Startime = text.unix() * 1000;
-    console.log(`Startime ${text.toString()}`);
-  }
-  function EndTimeChangeHander(text) {
-    EndTime = text.unix() * 1000;
-    console.log(`EndTime ${text.toString()}`);
-  }
+  // function StartTimeChangeHander(text) {
+  //   // Startime = text.unix() * 1000;
+  //   console.log(text);
+  // }
+  // function EndTimeChangeHander(text) {
+  //   EndTime = text.unix() * 1000;
+  //   console.log(`EndTime ${text.toString()}`);
+  // }
   function requestData() {
-    setTimeZone({ Startime, EndTime });
+    // console.log("starTime.current.value");
+    // console.log(starTime.current);
+
+    const Startime = Date.parse(starTime.current.value);
+    const EndTime = Date.parse(endTime.current.value);
     console.log({ Startime, EndTime });
+    setTimeZone({ Startime, EndTime });
   }
 
   return (
@@ -37,14 +45,18 @@ export default function DatePicker() {
           >
             <Grid item>
               <DateTimePicker
+                inputRef={starTime}
                 label="StartTime"
-                onAccept={StartTimeChangeHander}
+                defaultValue={dayjs(TimeZone.Startime)}
+                // onAccept={StartTimeChangeHander}
               ></DateTimePicker>
             </Grid>
             <Grid item>
               <DateTimePicker
+                inputRef={endTime}
                 label="EndTime"
-                onAccept={EndTimeChangeHander}
+                defaultValue={dayjs(TimeZone.EndTime)}
+                // onAccept={EndTimeChangeHander}
               ></DateTimePicker>
             </Grid>
           </Grid>
